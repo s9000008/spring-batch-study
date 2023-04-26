@@ -20,7 +20,6 @@ public class ProductReportWriter implements ItemWriter<ProductReport> {
     @Override
     public void write(List<? extends ProductReport> list) throws Exception {
         list.stream().forEach( item -> {
-            System.out.println(item.getId());
             ProductReport row = repository.findByProjectId(item.getProductId().longValue()).orElse(null);
             if(row != null){
                 row.setPrice(row.getPrice().add(item.getPrice()));

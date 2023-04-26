@@ -42,7 +42,6 @@ public class OrderJob {
     @Autowired
     ProductReportJob productReportJob;
     public JpaPagingItemReader<Orders> reader(){
-        System.out.println("Orders - reader");
         JpaPagingItemReader<Orders> reader = new JpaPagingItemReader<>();
         reader.setEntityManagerFactory(entityManagerFactory);
         reader.setQueryProvider(provider);

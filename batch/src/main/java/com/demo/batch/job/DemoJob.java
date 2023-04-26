@@ -19,7 +19,6 @@ public class DemoJob {
     @Autowired
     StepBuilderFactory stepBuilderFactory;
     public Job jobFlowDemo1(){
-        System.out.println("test");
         return jobBuilderFactory.get("jobFlowDemo1")
                 .start(step1())
                 .next(step2())
@@ -28,7 +27,6 @@ public class DemoJob {
     }
 
     public Step step1() {
-        System.out.println("STEP 1");
         return stepBuilderFactory.get("step1").tasklet(
                 new Tasklet() {
                     @Override
