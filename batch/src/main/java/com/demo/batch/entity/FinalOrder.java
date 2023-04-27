@@ -35,7 +35,7 @@ public class FinalOrder implements java.io.Serializable{
     private int quantity;
 
     @Column(name = "total_price")
-    private BigDecimal total_price;
+    private BigDecimal totalPrice;
 
     @Column(name = "status")
     private String status;

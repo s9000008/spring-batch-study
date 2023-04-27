@@ -36,18 +36,20 @@ public class OrdersProcessor implements ItemProcessor<Orders, FinalOrder> {
 		String sql = "SELECT id, order_id, product_id, quantity, price FROM order_items WHERE order_id = ?";
 		List<OrderItem> orderItemList = jdbcTemplate.query(sql, new Object[]{item.getId()},
 				BeanPropertyRowMapper.newInstance(OrderItem.class));
+		int quantityCount = 0;
 		AtomicReference<BigDecimal> total = new AtomicReference<>(BigDecimal.ZERO);
-		orderItemList.stream().forEach((orderItem) ->{
-			total.updateAndGet(t -> t.add(orderItem.getPrice()));
-		});
-		int quantityCount = orderItemList.stream().mapToInt(OrderItem::getQuantity).sum();
-
+		if(orderItemList.size() > 0) {
+			orderItemList.stream().forEach((orderItem) -> {
+				total.updateAndGet(t -> t.add(orderItem.getPrice()));
+			});
+			quantityCount = orderItemList.stream().mapToInt(OrderItem::getQuantity).sum();
+		}
 
     	finalOrder.setOrderId(item.getId());
     	//finalOrder.setProductName("TBD");
     	finalOrder.setQuantity(quantityCount);
     	finalOrder.setStatus(item.getStatus());
-    	finalOrder.setTotal_price(total.get());
+    	finalOrder.setTotalPrice(total.get());
     	finalOrder.setOrderDate(item.getOrderDate());
     	finalOrder.setUserId(item.getUserId());
         return finalOrder;
